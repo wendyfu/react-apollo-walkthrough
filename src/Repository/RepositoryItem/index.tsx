@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import Button from '../../Button'
 import Link from '../../Link';
-import { GetRepositories_viewer_repositories_edges_node } from '../../__generated__/types'
+import { GetRepositories_viewer_repositories_edges_node, SubscriptionState } from '../../__generated__/types'
 
 import '../style.css';
 
@@ -25,6 +25,17 @@ const REMOVE_STAR_REPOSITORY = gql`
       starrable {
         id
         viewerHasStarred
+      }
+    }
+  }
+`;
+
+const UPDATE_SUBSCRIPTION_REPOSITORY = gql`
+  mutation($id: ID!, $state: SubscriptionState!) {
+    updateSubscription(input: { subscribableId: $id, state: $state }) {
+      subscribable {
+        id
+        viewerSubscription
       }
     }
   }
@@ -54,12 +65,39 @@ const RepositoryItem = ( node: GetRepositories_viewer_repositories_edges_node ) 
               <Button
                 customClassName={'RepositoryItem-title-action'}              
                 onClick={(e) => removeStar()}>
-                {!loading ? ('Remove Star') : ('Loading..')}
+                {!loading ? (`${node.stargazers.totalCount} Star | Remove Star`) : ('Loading..')}
               </Button>
             )}
           </Mutation>
         )}
       </div>
+    </div>
+
+    <div>
+      { node.viewerSubscription === SubscriptionState.UNSUBSCRIBED ? (
+        <Mutation mutation={UPDATE_SUBSCRIPTION_REPOSITORY}
+          variables={{ id: node.id, state: SubscriptionState.SUBSCRIBED }}>
+          {(updateSubscription, {data, loading, error}) => (
+            <Button
+              customClassName={'RepositoryItem-title-action'}              
+              onClick={(e) => updateSubscription()}
+              color='black'>
+              {!loading ? (`${node.viewerSubscription} | Subscribe Now`) : ('Loading..')}
+            </Button>
+          )}
+        </Mutation>
+      ) : (
+        <Mutation mutation={UPDATE_SUBSCRIPTION_REPOSITORY}
+          variables={{ id: node.id, state: SubscriptionState.UNSUBSCRIBED }}>
+          {(updateSubscription, {data, loading, error}) => (
+            <Button
+              customClassName={'RepositoryItem-title-action'}              
+              onClick={(e) => updateSubscription()}>
+              {!loading ? (`${node.viewerSubscription} | UnSubscribe Now`) : ('Loading..')}
+            </Button>
+          )}
+        </Mutation>
+      )}
     </div>
 
     <div className="RepositoryItem-description">
