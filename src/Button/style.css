@@ -16,6 +16,17 @@
   background: #fff;
 }
 
+.Button_salmon {
+  border: 1px solid salmon;
+  color: salmon;
+}
+
+.Button_salmon:hover {
+  color: #fff;
+  background: salmon;
+}
+
+
 .Button_black {
   border: 1px solid #000;
   color: #000;
