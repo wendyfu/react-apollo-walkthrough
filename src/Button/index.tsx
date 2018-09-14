@@ -3,7 +3,7 @@ import * as React from 'react';
 import './style.css';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement>{
-  customClassName: string,
+  customclassname: string,
   color?: 'black' | 'white' | 'salmon',
   type?: 'button',
 }
@@ -16,10 +16,10 @@ class Button extends React.Component<ButtonProps> {
   }
 
   public render() {
-    const { customClassName, color, type, children } = this.props
+    const { customclassname, color, type, children } = this.props
     return (
       <button
-        className={`${customClassName} Button Button_${color}`}
+        className={`${customclassname} Button Button_${color}`}
         type={type} 
         {...this.props}>
         {children}

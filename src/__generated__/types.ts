@@ -61,6 +61,60 @@ export interface GetRepositories {
   viewer: GetRepositories_viewer;  // The currently authenticated user.
 }
 
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: addStar
+// ====================================================
+
+export interface addStar_addStar_starrable {
+  __typename: "Repository" | "Gist";
+  id: string;
+  viewerHasStarred: boolean;  // Returns a boolean indicating whether the viewing user has starred this starrable.
+}
+
+export interface addStar_addStar {
+  __typename: "AddStarPayload";
+  starrable: addStar_addStar_starrable;  // The starrable.  **Upcoming Change on 2019-01-01 UTC** **Description:** Type for `starrable` will change from `Starrable!` to `Starrable`. **Reason:** In preparation for an upcoming change to the way we report mutation errors, non-nullable payload fields are becoming nullable.
+}
+
+export interface addStar {
+  addStar: addStar_addStar | null;  // Adds a star to a Starrable.
+}
+
+export interface addStarVariables {
+  id: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: removeStar
+// ====================================================
+
+export interface removeStar_removeStar_starrable {
+  __typename: "Repository" | "Gist";
+  id: string;
+  viewerHasStarred: boolean;  // Returns a boolean indicating whether the viewing user has starred this starrable.
+}
+
+export interface removeStar_removeStar {
+  __typename: "RemoveStarPayload";
+  starrable: removeStar_removeStar_starrable;  // The starrable.  **Upcoming Change on 2019-01-01 UTC** **Description:** Type for `starrable` will change from `Starrable!` to `Starrable`. **Reason:** In preparation for an upcoming change to the way we report mutation errors, non-nullable payload fields are becoming nullable.
+}
+
+export interface removeStar {
+  removeStar: removeStar_removeStar | null;  // Removes a star from a Starrable.
+}
+
+export interface removeStarVariables {
+  id: string;
+}
+
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
