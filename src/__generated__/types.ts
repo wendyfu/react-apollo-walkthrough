@@ -115,6 +115,34 @@ export interface removeStarVariables {
   id: string;
 }
 
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: updateSubscription
+// ====================================================
+
+export interface updateSubscription_updateSubscription_subscribable {
+  __typename: "Issue" | "Repository" | "Commit" | "PullRequest" | "Team";
+  id: string;
+  viewerSubscription: SubscriptionState | null;  // Identifies if the viewer is watching, not watching, or ignoring the subscribable entity.
+}
+
+export interface updateSubscription_updateSubscription {
+  __typename: "UpdateSubscriptionPayload";
+  subscribable: updateSubscription_updateSubscription_subscribable;  // The input subscribable entity.  **Upcoming Change on 2019-01-01 UTC** **Description:** Type for `subscribable` will change from `Subscribable!` to `Subscribable`. **Reason:** In preparation for an upcoming change to the way we report mutation errors, non-nullable payload fields are becoming nullable.
+}
+
+export interface updateSubscription {
+  updateSubscription: updateSubscription_updateSubscription | null;  // Updates the state for subscribable subjects.
+}
+
+export interface updateSubscriptionVariables {
+  id: string;
+  state: SubscriptionState;
+}
+
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 

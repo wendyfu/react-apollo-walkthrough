@@ -6,7 +6,7 @@
     "build": "webpack --config webpack.config.js --mode development",
     "start": "webpack-dev-server --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "schema": "apollo-codegen introspect-schema https://api.github.com/graphql --output ./src/schema.json --header 'Authorization: Bearer qwertyuiop'",
+    "schema": "apollo-codegen introspect-schema https://api.github.com/graphql --output ./src/schema.json --header \"Authorization: Bearer qwertyuiop\"",
     "types": "apollo-codegen generate ./src/**/queries.ts --addTypename --schema ./src/schema.json --target typescript --output ./src/__generated__/types.ts"
   },
   "dependencies": {

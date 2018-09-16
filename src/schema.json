@@ -31916,12 +31916,6 @@
               "deprecationReason": null
             },
             {
-              "name": "MARKED_AS_DUPLICATE_EVENT",
-              "description": "Represents a 'marked_as_duplicate' event on a given issue or pull request.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "MENTIONED_EVENT",
               "description": "Represents a 'mentioned' event on a given issue or pull request.",
               "isDeprecated": false,
@@ -31984,12 +31978,6 @@
             {
               "name": "UNLOCKED_EVENT",
               "description": "Represents an 'unlocked' event on a given issue or pull request.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UNMARKED_AS_DUPLICATE_EVENT",
-              "description": "Represents an 'unmarked_as_duplicate' event on a given issue or pull request.",
               "isDeprecated": false,
               "deprecationReason": null
             },
@@ -32523,12 +32511,6 @@
               "deprecationReason": null
             },
             {
-              "name": "MARKED_AS_DUPLICATE_EVENT",
-              "description": "Represents a 'marked_as_duplicate' event on a given issue or pull request.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "MENTIONED_EVENT",
               "description": "Represents a 'mentioned' event on a given issue or pull request.",
               "isDeprecated": false,
@@ -32591,12 +32573,6 @@
             {
               "name": "UNLOCKED_EVENT",
               "description": "Represents an 'unlocked' event on a given issue or pull request.",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UNMARKED_AS_DUPLICATE_EVENT",
-              "description": "Represents an 'unmarked_as_duplicate' event on a given issue or pull request.",
               "isDeprecated": false,
               "deprecationReason": null
             },

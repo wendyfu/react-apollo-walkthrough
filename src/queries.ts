@@ -78,7 +78,7 @@ export const REMOVE_STAR_REPOSITORY = gql`
 `;
 
 export const UPDATE_SUBSCRIPTION_REPOSITORY = gql`
-  mutation($id: ID!, $state: SubscriptionState!) {
+  mutation updateSubscription($id: ID!, $state: SubscriptionState!) {
     updateSubscription(input: { subscribableId: $id, state: $state }) {
       subscribable {
         id

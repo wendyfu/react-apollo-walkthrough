@@ -5,7 +5,7 @@ import { Mutation, DataProps } from 'react-apollo'
 import Button from '../../Button'
 import Dropdown from '../../Dropdown'
 import Link from '../../Link';
-import { GetRepositories_viewer_repositories_edges_node, SubscriptionState, addStar_addStar_starrable, addStar, removeStar } from '../../__generated__/types'
+import { GetRepositories_viewer_repositories_edges_node, SubscriptionState, addStar_addStar_starrable, addStar, removeStar, updateSubscription } from '../../__generated__/types'
 
 import '../style.css';
 import ApolloClient from 'apollo-client';
@@ -56,6 +56,30 @@ const updateRemoveStar = (cache: InMemoryCache, result: DataProps<removeStar>) =
   });
 }
 
+const updateWatcherCount = (cache: InMemoryCache, result: DataProps<updateSubscription>) => {
+  const repository:GetRepositories_viewer_repositories_edges_node = cache.readFragment({
+    id: `Repository:${result.data.updateSubscription.subscribable.id}`,
+    fragment: REPOSITORY_FRAGMENT
+  })
+
+  let { totalCount } = repository.watchers
+  totalCount = (result.data.updateSubscription.subscribable.viewerSubscription === SubscriptionState.SUBSCRIBED) ?
+  totalCount + 1 :
+  (totalCount > 0) ? totalCount - 1 : totalCount;
+  
+  cache.writeFragment({
+    id: `Repository:${result.data.updateSubscription.subscribable.id}`,
+    fragment: REPOSITORY_FRAGMENT,
+    data: {
+      ...repository,
+      watchers: {
+        ...repository.watchers,
+        totalCount,
+      },
+    },
+  });
+}
+
 const RepositoryItem = ( node: GetRepositories_viewer_repositories_edges_node ) => {
   let dropdown: HTMLSelectElement
 
@@ -92,16 +116,28 @@ const RepositoryItem = ( node: GetRepositories_viewer_repositories_edges_node ) 
       </div>
 
       <div>
-        <Mutation mutation={UPDATE_SUBSCRIPTION_REPOSITORY}>
+        <Mutation mutation={UPDATE_SUBSCRIPTION_REPOSITORY} update={updateWatcherCount}>
           {(updateSubscription, {data, loading, error}) => (
             <React.Fragment>
               <Dropdown selected={node.viewerSubscription}
                 reference={node => dropdown = node}
                 options={Object.keys(SubscriptionState)}
                 onChange={e => 
-                  updateSubscription({ variables: { id: node.id, state: dropdown.value }})
+                  updateSubscription({
+                    variables: { id: node.id, state: dropdown.value },
+                    optimisticResponse: {
+                      updateSubscription: {
+                        __typename: 'Mutation',
+                        subscribable: {
+                          __typename: 'Repository',
+                          id: node.id,
+                          viewerSubscription: dropdown.value
+                        }
+                      }
+                    }
+                  })
                 }/>
-              {loading && ' Loading..'}
+              {` Total watchers: ${node.watchers.totalCount}`}
             </React.Fragment>
           )}
         </Mutation>
