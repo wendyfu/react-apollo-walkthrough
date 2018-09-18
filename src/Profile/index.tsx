@@ -16,42 +16,41 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-// class RepositoriesQuery extends Query<GetRepositories, void> {}
-
 // --- RenderProps method ---
-// const Profile = () => (
-//   <RepositoriesQuery query={GET_REPOSITORIES_OF_CURRENT_USER}>
-//     {({ data, loading, error }) => {
-//       if (error) {
-//         return <ErrorMessage error={error} />
-//       }
+class RepositoriesQuery extends Query<GetRepositories, void> {}
+
+const Profile = () => (
+  <RepositoriesQuery query={GET_REPOSITORIES_OF_CURRENT_USER} notifyOnNetworkStatusChange={true}>
+    {({ data, loading, error, fetchMore }) => {
+      if (error) {
+        return <ErrorMessage error={error} />
+      }
       
-//       const { viewer } = data;
+      const { viewer } = data;
 
-//       if (loading || !viewer) { return <Loading /> }
+      if (loading && !viewer) {return <Loading /> }
 
-//       console.log(viewer)
+      return <RepositoryList repositories={viewer.repositories} fetchMore={fetchMore} 
+            loading={loading}/>
+    }}
+  </RepositoriesQuery>
+)
 
-//       return <RepositoryList repositories={viewer.repositories} />
-//     }}
-//   </RepositoriesQuery>
-// )
-
-// export default Profile;
+export default Profile;
 
 // --- HOC method ---
-const Profile = ( {data, loading, error} : QueryResult<GetRepositories> ) => {
-  if (error) {
-    return <ErrorMessage error={error} />
-  }
+// const Profile = ( {data, loading, error} : QueryResult<GetRepositories> ) => {
+//   if (error) {
+//     return <ErrorMessage error={error} />
+//   }
   
-  const { viewer } = data;
+//   const { viewer } = data;
 
-  if (loading || !viewer) { return <Loading /> }
+//   if (loading || !viewer) { return <Loading /> }
 
-  console.log(viewer)
+//   console.log(viewer)
 
-  return <RepositoryList repositories={viewer.repositories} />
-}
+//   return <RepositoryList repositories={viewer.repositories} />
+// }
 
-export default graphql<any>(GET_REPOSITORIES_OF_CURRENT_USER)(Profile);
+// export default graphql<any>(GET_REPOSITORIES_OF_CURRENT_USER)(Profile);

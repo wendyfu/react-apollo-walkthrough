@@ -94,7 +94,7 @@ const RepositoryItem = ( node: GetRepositories_viewer_repositories_edges_node ) 
             <Mutation mutation={ADD_STAR_REPOSITORY} variables={{ id: node.id }} update={updateAddStar}>
               {(addStar, {data, loading, error}) => (
                 <Button
-                  customclassname={'RepositoryItem-title-action'}              
+                  className={'RepositoryItem-title-action'}              
                   onClick={(e) => addStar()}
                   color='black'>
                   {!loading ? (`${node.stargazers.totalCount} Star`) : ('Loading..')}
@@ -105,7 +105,7 @@ const RepositoryItem = ( node: GetRepositories_viewer_repositories_edges_node ) 
             <Mutation mutation={REMOVE_STAR_REPOSITORY} variables={{ id: node.id }} update={updateRemoveStar}>
               {(removeStar, {data, loading, error}) => (
                 <Button
-                  customclassname={'RepositoryItem-title-action'}              
+                  className={'RepositoryItem-title-action'}              
                   onClick={(e) => removeStar()}>
                   {!loading ? (`${node.stargazers.totalCount} Star | Remove Star`) : ('Loading..')}
                 </Button>

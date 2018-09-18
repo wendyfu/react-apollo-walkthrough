@@ -47,9 +47,16 @@ export interface GetRepositories_viewer_repositories_edges {
   node: GetRepositories_viewer_repositories_edges_node | null;  // The item at the end of the edge.
 }
 
+export interface GetRepositories_viewer_repositories_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;  // When paginating forwards, the cursor to continue.
+  hasNextPage: boolean;      // When paginating forwards, are there more items?
+}
+
 export interface GetRepositories_viewer_repositories {
   __typename: "RepositoryConnection";
   edges: (GetRepositories_viewer_repositories_edges | null)[] | null;  // A list of edges.
+  pageInfo: GetRepositories_viewer_repositories_pageInfo;              // Information to aid in pagination.
 }
 
 export interface GetRepositories_viewer {
@@ -59,6 +66,10 @@ export interface GetRepositories_viewer {
 
 export interface GetRepositories {
   viewer: GetRepositories_viewer;  // The currently authenticated user.
+}
+
+export interface GetRepositoriesVariables {
+  cursor?: string | null;
 }
 
 
