@@ -1,6 +1,6 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo'
+import { Query, graphql, QueryResult } from 'react-apollo'
 import ErrorMessage from '../Error'
 import Loading from '../Loading'
 import RepositoryList from '../Repository'
@@ -16,31 +16,42 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-class RepositoriesQuery extends Query<GetRepositories, void> {}
+// class RepositoriesQuery extends Query<GetRepositories, void> {}
 
-const Profile = () => (
-  <RepositoriesQuery query={GET_REPOSITORIES_OF_CURRENT_USER}>
-    {({ data, loading, error }) => {
-      if (error) {
-        return <ErrorMessage error={error} />
-      }
+// --- RenderProps method ---
+// const Profile = () => (
+//   <RepositoriesQuery query={GET_REPOSITORIES_OF_CURRENT_USER}>
+//     {({ data, loading, error }) => {
+//       if (error) {
+//         return <ErrorMessage error={error} />
+//       }
       
-      const { viewer } = data;
+//       const { viewer } = data;
 
-      if (loading || !viewer) { return <Loading /> }
+//       if (loading || !viewer) { return <Loading /> }
 
-      console.log(viewer)
+//       console.log(viewer)
 
-      return <RepositoryList repositories={viewer.repositories} />
+//       return <RepositoryList repositories={viewer.repositories} />
+//     }}
+//   </RepositoriesQuery>
+// )
 
-      // return (
-      //   <div>
-      //     <h3>PROFILE</h3>
-      //     <div>{viewer.name} {viewer.login}</div>
-      //   </div>
-      // )
-    }}
-  </RepositoriesQuery>
-)
+// export default Profile;
 
-export default Profile;
+// --- HOC method ---
+const Profile = ( {data, loading, error} : QueryResult<GetRepositories> ) => {
+  if (error) {
+    return <ErrorMessage error={error} />
+  }
+  
+  const { viewer } = data;
+
+  if (loading || !viewer) { return <Loading /> }
+
+  console.log(viewer)
+
+  return <RepositoryList repositories={viewer.repositories} />
+}
+
+export default graphql<any>(GET_REPOSITORIES_OF_CURRENT_USER)(Profile);
