@@ -77,6 +77,80 @@ export interface GetRepositoriesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetRepositoriesOfOrganization
+// ====================================================
+
+export interface GetRepositoriesOfOrganization_organization_repositories_edges_node_primaryLanguage {
+  __typename: "Language";
+  name: string;  // The name of the current language.
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories_edges_node_owner {
+  __typename: "Organization" | "User";
+  login: string;  // The username used to login.
+  url: any;       // The HTTP URL for the owner.
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories_edges_node_stargazers {
+  __typename: "StargazerConnection";
+  totalCount: number;  // Identifies the total count of items in the connection.
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories_edges_node_watchers {
+  __typename: "UserConnection";
+  totalCount: number;  // Identifies the total count of items in the connection.
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories_edges_node {
+  __typename: "Repository";
+  id: string;
+  name: string;                                                                                                // The name of the repository.
+  url: any;                                                                                                    // The HTTP URL for this repository
+  descriptionHTML: any;                                                                                        // The description of the repository rendered to HTML.
+  primaryLanguage: GetRepositoriesOfOrganization_organization_repositories_edges_node_primaryLanguage | null;  // The primary language of the repository's code.
+  owner: GetRepositoriesOfOrganization_organization_repositories_edges_node_owner;                             // The User owner of the repository.
+  stargazers: GetRepositoriesOfOrganization_organization_repositories_edges_node_stargazers;                   // A list of users who have starred this starrable.
+  viewerHasStarred: boolean;                                                                                   // Returns a boolean indicating whether the viewing user has starred this starrable.
+  watchers: GetRepositoriesOfOrganization_organization_repositories_edges_node_watchers;                       // A list of users watching the repository.
+  viewerSubscription: SubscriptionState | null;                                                                // Identifies if the viewer is watching, not watching, or ignoring the subscribable entity.
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories_edges {
+  __typename: "RepositoryEdge";
+  node: GetRepositoriesOfOrganization_organization_repositories_edges_node | null;  // The item at the end of the edge.
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;  // When paginating forwards, the cursor to continue.
+  hasNextPage: boolean;      // When paginating forwards, are there more items?
+}
+
+export interface GetRepositoriesOfOrganization_organization_repositories {
+  __typename: "RepositoryConnection";
+  edges: (GetRepositoriesOfOrganization_organization_repositories_edges | null)[] | null;  // A list of edges.
+  pageInfo: GetRepositoriesOfOrganization_organization_repositories_pageInfo;              // Information to aid in pagination.
+}
+
+export interface GetRepositoriesOfOrganization_organization {
+  __typename: "Organization";
+  repositories: GetRepositoriesOfOrganization_organization_repositories;  // A list of repositories that the user owns.
+}
+
+export interface GetRepositoriesOfOrganization {
+  organization: GetRepositoriesOfOrganization_organization | null;  // Lookup a organization by login.
+}
+
+export interface GetRepositoriesOfOrganizationVariables {
+  organizationName: string;
+  cursor?: string | null;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: addStar
 // ====================================================
 

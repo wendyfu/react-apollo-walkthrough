@@ -5,7 +5,7 @@ import './style.css';
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement>{
   // customclassname: string,
   color?: 'black' | 'white' | 'salmon',
-  type?: 'button',
+  type?: 'button' | 'submit',
 }
 
 class Button extends React.Component<ButtonProps> {

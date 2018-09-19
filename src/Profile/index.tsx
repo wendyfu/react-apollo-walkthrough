@@ -31,7 +31,7 @@ const Profile = () => (
       if (loading && !viewer) {return <Loading /> }
 
       return <RepositoryList repositories={viewer.repositories} fetchMore={fetchMore} 
-            loading={loading}/>
+            loading={loading} entry={'viewer'}/>
     }}
   </RepositoriesQuery>
 )

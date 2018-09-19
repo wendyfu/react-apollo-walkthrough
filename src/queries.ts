@@ -41,6 +41,62 @@ import REPOSITORY_FRAGMENT from './Repository/fragments'
 //   }
 // `;
 
+// export const GET_REPOSITORIES_OF_ORGANIZATION = gql`
+//   query GetRepositoriesOfOrganization($organizationName: String!, $cursor: String) {
+//    organization(login: $organizationName) {
+//      repositories(first: 2, after: $cursor) {
+//         edges {
+//           node {
+//             id
+//             name
+//             url
+//             descriptionHTML
+//             primaryLanguage {
+//               name
+//             }
+//             owner {
+//               login
+//               url
+//             }
+//             stargazers {
+//               totalCount
+//             }
+//             viewerHasStarred
+//             watchers {
+//               totalCount
+//             }
+//             viewerSubscription
+//           }
+//        }
+//        pageInfo {
+//          endCursor
+//          hasNextPage
+//        }
+//       }
+//     }
+//   }
+// `;
+
+export const GET_REPOSITORIES_OF_ORGANIZATION = gql`
+  query($organizationName: String!, $cursor: String) {
+    organization(login: $organizationName) {
+      repositories(first: 2, after: $cursor) {
+        edges {
+          node {
+            ...repository
+          }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+      }
+    }
+  }
+
+  ${REPOSITORY_FRAGMENT}
+`;
+
 export const GET_REPOSITORIES_OF_CURRENT_USER = gql`
   query($cursor: String) {
     viewer {

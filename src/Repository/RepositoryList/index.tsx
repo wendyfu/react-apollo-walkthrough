@@ -11,53 +11,37 @@ import FetchMore from '../../FetchMore';
 interface RepositoryListProps {
   repositories: GetRepositories_viewer_repositories,
   fetchMore: any,
-  loading: boolean
+  loading: boolean,
+  entry: string
 }
 
-const updateQuery = (previousResult: GetRepositories, options: { fetchMoreResult: GetRepositories }) => {
+// const updateQuery = (entry: string) =>
+// (previousResult: GetRepositories, options: { fetchMoreResult: GetRepositories }) => {
+
+const updateQuery = (entry: string) =>
+(previousResult: any, options: { fetchMoreResult: any }) => {
   if (!options.fetchMoreResult) {
     return previousResult;
   }
 
   return {
     ...previousResult,
-    viewer: {
-      ...previousResult.viewer,
+    [entry]: {
+      ...previousResult[entry],
       repositories: {
-        ...previousResult.viewer.repositories,
-        ...options.fetchMoreResult.viewer.repositories,
+        ...previousResult[entry].repositories,
+        ...options.fetchMoreResult[entry].repositories,
         edges: [
-          ...previousResult.viewer.repositories.edges,
-          ...options.fetchMoreResult.viewer.repositories.edges,
+          ...previousResult[entry].repositories.edges,
+          ...options.fetchMoreResult[entry].repositories.edges,
         ],
       },
     },
   };
 }
 
-// const updateQuery = (previousResult: GetRepositories, { fetchMoreResult } ): any => {
-//   if (!fetchMoreResult) {
-//     return previousResult;
-//   }
-
-//   return {
-//     ...previousResult,
-//     viewer: {
-//       ...previousResult.viewer,
-//       repositories: {
-//         ...previousResult.viewer.repositories,
-//         ...fetchMoreResult.viewer.repositories,
-//         edges: [
-//           ...previousResult.viewer.repositories.edges,
-//           ...fetchMoreResult.viewer.repositories.edges,
-//         ],
-//       },
-//     },
-//   };
-// }
-
 const RepositoryList = ( props: RepositoryListProps ) => {
-  const { repositories, fetchMore, loading } = props
+  const { repositories, fetchMore, loading, entry } = props
   return (<React.Fragment>
     {repositories.edges.map(({ node }) => (
       <div key={node.id} className="RepositoryItem">
@@ -71,7 +55,7 @@ const RepositoryList = ( props: RepositoryListProps ) => {
       variables={{
         cursor: repositories.pageInfo.endCursor,
       }}
-      updateQuery={updateQuery}
+      updateQuery={updateQuery(entry)}
       fetchMore={fetchMore}>
       Repositories
     </FetchMore>
