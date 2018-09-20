@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom';
-import { RouteComponentProps, withRouter } from 'react-router'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Button from '../../Button';
 import Input from '../../Input';
@@ -8,16 +7,16 @@ import * as routes from '../../constants/routes';
 
 import './style.css';
 
-interface NavigationProps {
-  location : { pathname: string }
-}
-
 interface OrganizationSearchProps {
   organizationName: string,
   onOrganizationSearch: (value: string) => void
 }
 
-class Navigation extends React.Component<NavigationProps & OrganizationSearchProps & RouteComponentProps<any>> {
+interface NavigationProps extends OrganizationSearchProps, RouteComponentProps<any> {
+
+}
+
+class Navigation extends React.Component<NavigationProps> {
   
   render() {
     const { location: { pathname }, organizationName, onOrganizationSearch} = this.props
@@ -76,4 +75,4 @@ class OrganizationSearch extends React.Component<OrganizationSearchProps> {
   }
 }
 
-export default withRouter<NavigationProps & OrganizationSearchProps & RouteComponentProps<any>>(Navigation)
+export default withRouter<NavigationProps>(Navigation)
