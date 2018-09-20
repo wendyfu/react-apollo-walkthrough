@@ -77,10 +77,29 @@ import REPOSITORY_FRAGMENT from './Repository/fragments'
 //   }
 // `;
 
+export const GET_ISSUES_OF_REPOSITORY = gql`
+  query GetIssuesOfRepository($repositoryOwner: String!, $repositoryName: String!) {
+    repository(name: $repositoryName, owner: $repositoryOwner) {
+      issues(first: 5) {
+        edges {
+          node {
+            id
+            number
+            state
+            title
+            url
+            bodyHTML
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_REPOSITORIES_OF_ORGANIZATION = gql`
-  query($organizationName: String!, $cursor: String) {
+  query GetRepositoriesOfOrganization($organizationName: String!, $cursor: String) {
     organization(login: $organizationName) {
-      repositories(first: 2, after: $cursor) {
+      repositories(first: 100, after: $cursor) {
         edges {
           node {
             ...repository
@@ -118,7 +137,7 @@ export const GET_REPOSITORIES_OF_CURRENT_USER = gql`
     }
   }
 
-  ${REPOSITORY_FRAGMENT}
+${REPOSITORY_FRAGMENT}
 `;
 
 export const ADD_STAR_REPOSITORY = gql`

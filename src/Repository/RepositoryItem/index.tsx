@@ -5,7 +5,7 @@ import { Mutation, DataProps } from 'react-apollo'
 import Button from '../../Button'
 import Dropdown from '../../Dropdown'
 import Link from '../../Link';
-import { GetRepositories_viewer_repositories_edges_node, SubscriptionState, addStar_addStar_starrable, addStar, removeStar, updateSubscription } from '../../__generated__/types'
+import { GetRepositories_viewer_repositories_edges_node, SubscriptionState, addStar, removeStar, updateSubscription } from '../../__generated__/types'
 
 import '../style.css';
 import ApolloClient from 'apollo-client';

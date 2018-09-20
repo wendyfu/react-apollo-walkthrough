@@ -12,7 +12,7 @@ interface OrganizationSearchProps {
   onOrganizationSearch: (value: string) => void
 }
 
-interface NavigationProps extends OrganizationSearchProps, RouteComponentProps<any> {
+interface NavigationProps extends OrganizationSearchProps, RouteComponentProps<{}> {
 
 }
 

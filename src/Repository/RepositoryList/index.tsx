@@ -1,12 +1,13 @@
 import * as React from 'react';
 
 import RepositoryItem from '../RepositoryItem';
-import { GetRepositories_viewer_repositories, GetRepositories, GetRepositories_viewer } from '../../__generated__/types'
 
 import '../style.css';
 import { FetchMoreOptions, FetchMoreQueryOptions } from 'react-apollo';
 import Loading from '../../Loading';
 import FetchMore from '../../FetchMore';
+import Issues from '../../Issue';
+import { GetRepositories_viewer_repositories, GetRepositories_viewer_repositories_edges } from '../../__generated__/types';
 
 interface RepositoryListProps {
   repositories: GetRepositories_viewer_repositories,
@@ -43,9 +44,14 @@ const updateQuery = (entry: string) =>
 const RepositoryList = ( props: RepositoryListProps ) => {
   const { repositories, fetchMore, loading, entry } = props
   return (<React.Fragment>
-    {repositories.edges.map(({ node }) => (
+    {repositories.edges.map(({ node }: GetRepositories_viewer_repositories_edges) => (
       <div key={node.id} className="RepositoryItem">
         <RepositoryItem {...node} />
+        
+        <Issues
+          repositoryName={node.name}
+          repositoryOwner={node.owner.login}
+        />
       </div>
       )
     )}

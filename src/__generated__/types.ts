@@ -151,6 +151,48 @@ export interface GetRepositoriesOfOrganizationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: GetIssuesOfRepository
+// ====================================================
+
+export interface GetIssuesOfRepository_repository_issues_edges_node {
+  __typename: "Issue";
+  id: string;
+  number: number;     // Identifies the issue number.
+  state: IssueState;  // Identifies the state of the issue.
+  title: string;      // Identifies the issue title.
+  url: any;           // The HTTP URL for this issue
+  bodyHTML: any;      // Identifies the body of the issue rendered to HTML.
+}
+
+export interface GetIssuesOfRepository_repository_issues_edges {
+  __typename: "IssueEdge";
+  node: GetIssuesOfRepository_repository_issues_edges_node | null;  // The item at the end of the edge.
+}
+
+export interface GetIssuesOfRepository_repository_issues {
+  __typename: "IssueConnection";
+  edges: (GetIssuesOfRepository_repository_issues_edges | null)[] | null;  // A list of edges.
+}
+
+export interface GetIssuesOfRepository_repository {
+  __typename: "Repository";
+  issues: GetIssuesOfRepository_repository_issues;  // A list of issues that have been opened in the repository.
+}
+
+export interface GetIssuesOfRepository {
+  repository: GetIssuesOfRepository_repository | null;  // Lookup a given repository by the owner and repository name.
+}
+
+export interface GetIssuesOfRepositoryVariables {
+  repositoryOwner: string;
+  repositoryName: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: addStar
 // ====================================================
 
@@ -240,6 +282,12 @@ export enum SubscriptionState {
   IGNORED = "IGNORED",
   SUBSCRIBED = "SUBSCRIBED",
   UNSUBSCRIBED = "UNSUBSCRIBED",
+}
+
+// The possible states of an issue.
+export enum IssueState {
+  CLOSED = "CLOSED",
+  OPEN = "OPEN",
 }
 
 //==============================================================
