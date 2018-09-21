@@ -186,6 +186,7 @@ export interface GetIssuesOfRepository {
 export interface GetIssuesOfRepositoryVariables {
   repositoryOwner: string;
   repositoryName: string;
+  issueState: IssueState;
 }
 
 

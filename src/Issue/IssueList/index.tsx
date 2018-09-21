@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Query, QueryResult } from 'react-apollo';
+import { withState } from 'recompose';
 
 import './style.css'
 import { GET_ISSUES_OF_REPOSITORY } from '../../queries';
@@ -15,13 +16,13 @@ export enum ISSUE_STATES {
   OPEN = "OPEN",
 }
 
-const TRANSITION_LABELS = {
+const TRANSITION_LABELS: {[key: string]: string} = {
   [ISSUE_STATES.NONE]: 'Show Open Issues',
   [ISSUE_STATES.OPEN]: 'Show Closed Issues',
   [ISSUE_STATES.CLOSED]: 'Hide Issues',
 };
 
-const TRANSITION_STATE = {
+const TRANSITION_STATE: {[key: string]: string} = {
   [ISSUE_STATES.NONE]: ISSUE_STATES.OPEN,
   [ISSUE_STATES.OPEN]: ISSUE_STATES.CLOSED,
   [ISSUE_STATES.CLOSED]: ISSUE_STATES.NONE,
@@ -31,69 +32,53 @@ const isShow = ( issueState: ISSUE_STATES ) => issueState !== ISSUE_STATES.NONE;
 
 interface IssuesProps {
   repositoryOwner: string,
-  repositoryName: string
+  repositoryName: string,
 }
 
-class Issues extends React.Component<IssuesProps> {
-  state = {
-    issueState: ISSUE_STATES.NONE
-  }
+interface IssuesState {
+  issueState: ISSUE_STATES,
+  onChangeIssueState: (state: string) => ISSUE_STATES
+}
 
-  onChangeIssueState = ( nextIssueState: ISSUE_STATES ) => {
-    this.setState({ issueState: nextIssueState });
-  };
+type IssuesType = IssuesProps & IssuesState
 
-  render() {
-    const { repositoryName, repositoryOwner } = this.props
-    const { issueState } = this.state
+const Issues = ({ repositoryName, repositoryOwner, issueState, onChangeIssueState } : IssuesType) => {
+  return (
+    <div className="Issues">
+      <ButtonUnobtrusive
+        type="button"
+        onClick={() =>
+          onChangeIssueState(TRANSITION_STATE[issueState])
+        }>
+        {TRANSITION_LABELS[issueState]}
+      </ButtonUnobtrusive>
 
-    return (
-      <div className="Issues">
-        <ButtonUnobtrusive
-          type="button"
-          onClick={() =>
-            this.onChangeIssueState(TRANSITION_STATE[issueState])
-          }>
-          {TRANSITION_LABELS[issueState]}
-        </ButtonUnobtrusive>
-
-        {isShow(issueState) && (
-          <Query query={GET_ISSUES_OF_REPOSITORY}
-            variables={{ repositoryOwner, repositoryName }}>
-            {
-              ({ data, loading, error }: QueryResult<GetIssuesOfRepository>) => {
-                if (error) {
-                  return <ErrorMessage error={error} />
-                }
-
-                const { repository } = data;
-
-                if (loading && !repository) {
-                  return <Loading />;
-                }
-
-                const filteredRepository: GetIssuesOfRepository_repository = {
-                  __typename: "Repository",
-                  issues: {
-                    __typename: "IssueConnection",
-                    edges: repository.issues.edges.filter(issue => {                      
-                      return issue.node.state === issueState.toString()
-                    })
-                  }
-                }
-
-                if (!filteredRepository.issues.edges.length) {
-                  return <div className="IssueList">No issues ...</div>;
-                }
-        
-                return <IssueList issues={filteredRepository.issues} />;
+      {isShow(issueState) && (
+        <Query query={GET_ISSUES_OF_REPOSITORY}
+          variables={{ repositoryOwner, repositoryName, issueState }}>
+          {
+            ({ data, loading, error }: QueryResult<GetIssuesOfRepository>) => {
+              if (error) {
+                return <ErrorMessage error={error} />
               }
+
+              const { repository } = data;
+
+              if (loading && !repository) {
+                return <Loading />;
+              }
+
+              if (!repository.issues.edges.length) {
+                return <div className="IssueList">No issues ...</div>;
+              }
+      
+              return <IssueList issues={repository.issues} />;
             }
-          </Query>
-        )}
-      </div>
-    )
-  }
+          }
+        </Query>
+      )}
+    </div>
+  )
 }
 
 interface IssueListProps {
@@ -108,4 +93,8 @@ const IssueList = ( props : IssueListProps) => (
   </div>
 )
 
-export default Issues
+export default withState<any, ISSUE_STATES, 'issueState', 'onChangeIssueState'>(
+  'issueState',
+  'onChangeIssueState',
+  ISSUE_STATES.NONE,
+)(Issues);

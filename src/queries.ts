@@ -78,9 +78,13 @@ import REPOSITORY_FRAGMENT from './Repository/fragments'
 // `;
 
 export const GET_ISSUES_OF_REPOSITORY = gql`
-  query GetIssuesOfRepository($repositoryOwner: String!, $repositoryName: String!) {
+  query GetIssuesOfRepository(
+    $repositoryOwner: String!,
+    $repositoryName: String!, 
+    $issueState: IssueState!
+  ) {
     repository(name: $repositoryName, owner: $repositoryOwner) {
-      issues(first: 5) {
+      issues(first: 5, states: [$issueState]) {
         edges {
           node {
             id
