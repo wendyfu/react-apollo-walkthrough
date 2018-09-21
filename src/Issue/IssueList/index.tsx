@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Query, QueryResult } from 'react-apollo';
+import { Query, QueryResult, ApolloConsumer } from 'react-apollo';
 import { withState } from 'recompose';
 
 import './style.css'
@@ -9,6 +9,7 @@ import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 import IssueItem from '../IssueItem'
 import { ButtonUnobtrusive } from '../../Button';
+import { ApolloClient } from 'apollo-client';
 
 export enum ISSUE_STATES {
   NONE = "NONE",
@@ -28,7 +29,7 @@ const TRANSITION_STATE: {[key: string]: string} = {
   [ISSUE_STATES.CLOSED]: ISSUE_STATES.NONE,
 };
 
-const isShow = ( issueState: ISSUE_STATES ) => issueState !== ISSUE_STATES.NONE;
+const isShow = ( issueState: string ) => issueState !== ISSUE_STATES.NONE;
 
 interface IssuesProps {
   repositoryOwner: string,
@@ -45,13 +46,8 @@ type IssuesType = IssuesProps & IssuesState
 const Issues = ({ repositoryName, repositoryOwner, issueState, onChangeIssueState } : IssuesType) => {
   return (
     <div className="Issues">
-      <ButtonUnobtrusive
-        type="button"
-        onClick={() =>
-          onChangeIssueState(TRANSITION_STATE[issueState])
-        }>
-        {TRANSITION_LABELS[issueState]}
-      </ButtonUnobtrusive>
+      <IssueFilter repositoryName={repositoryName} repositoryOwner={repositoryOwner}
+        onChangeIssueState={onChangeIssueState} issueState={issueState} />
 
       {isShow(issueState) && (
         <Query query={GET_ISSUES_OF_REPOSITORY}
@@ -80,6 +76,46 @@ const Issues = ({ repositoryName, repositoryOwner, issueState, onChangeIssueStat
     </div>
   )
 }
+
+const prefetchIssues = (
+  client: ApolloClient<any>,
+  repositoryName: string,
+  repositoryOwner: string,
+  issueState: ISSUE_STATES
+) => {
+  const nextIssueState = TRANSITION_STATE[issueState];
+
+  if (isShow(nextIssueState)) {
+    client.query({
+      query: GET_ISSUES_OF_REPOSITORY,
+      variables: {
+        repositoryOwner,
+        repositoryName,
+        issueState: nextIssueState,
+      },
+    });
+  }
+}
+
+const IssueFilter = ({ repositoryName, repositoryOwner, onChangeIssueState, issueState }: IssuesType) => (
+  <ApolloConsumer >
+    {client => (
+      <ButtonUnobtrusive
+        type="button"
+        onClick={() =>
+          onChangeIssueState(TRANSITION_STATE[issueState])
+        }
+        onMouseOver={() => prefetchIssues(
+          client,
+          repositoryName,
+          repositoryOwner,
+          issueState
+          )}>
+        {TRANSITION_LABELS[issueState]}
+      </ButtonUnobtrusive>
+    )}
+  </ApolloConsumer>
+)
 
 interface IssueListProps {
   issues: GetIssuesOfRepository_repository_issues

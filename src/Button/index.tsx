@@ -36,10 +36,10 @@ interface ButtonUnobtrusiveProps extends React.HTMLAttributes<HTMLButtonElement>
 class ButtonUnobtrusive extends React.Component<ButtonUnobtrusiveProps> {
   
   render() {
-    const { className, type, children, ...rest } = this.props
+    const { className, type, children, onMouseOver, ...rest } = this.props
     return (<button
       {...rest}
-      className={`${className} Button_unobtrusive`} type={type}>
+      className={`${className} Button_unobtrusive`} type={type} onMouseOver={onMouseOver}>
       {children}
     </button>)
   }

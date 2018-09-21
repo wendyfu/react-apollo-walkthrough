@@ -8,7 +8,6 @@ import Link from '../../Link';
 import { GetRepositories_viewer_repositories_edges_node, SubscriptionState, addStar, removeStar, updateSubscription } from '../../__generated__/types'
 
 import '../style.css';
-import ApolloClient from 'apollo-client';
 import { ADD_STAR_REPOSITORY, REMOVE_STAR_REPOSITORY, UPDATE_SUBSCRIPTION_REPOSITORY } from '../../queries';
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloCache } from 'apollo-cache';
