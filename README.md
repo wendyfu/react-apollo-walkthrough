@@ -30,8 +30,11 @@ Get your Github Personal Access Tokens [here](https://github.com/settings/tokens
 ## Download schema and generate typing
 Generate typing automatically from the provided schema:
 Add these scripts to your `package.json`:
+
 `"schema": "apollo-codegen introspect-schema https://api.github.com/graphql --output ./src/schema.json --header 'Authorization: Bearer qwertyuiop'",`
+
 `"types": "apollo-codegen generate ./src/**/queries.ts --addTypename --schema ./src/schema.json --target typescript --output ./src/__generated__/types.ts"`
+
 (*) `queries.ts` contains your GraphQL query.
 
 ## GraphQL Query with Apollo Client in React
