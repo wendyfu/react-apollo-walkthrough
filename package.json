@@ -23,7 +23,7 @@
     "react-apollo": "^2.1.11",
     "react-dom": "^16.4.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "5.0.1",
     "recompose": "^0.30.0",
     "typescript": "^3.0.3"
   },
@@ -33,11 +33,11 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/recompose": "^0.26.5",
     "apollo-codegen": "^0.20.2",
-    "css-loader": "^1.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "ts-loader": "^5.1.0",
-    "webpack": "^4.17.2",
-    "webpack-cli": "^3.1.0",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.1.8"
   }
 }
